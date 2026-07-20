@@ -1,0 +1,59 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: >-
+  Derived from openapi/st-george-bank-cds-banking-products-openapi.yml
+  operations. St.George / Westpac publishes no official MCP server; this is a
+  candidate tool surface an agent could expose over the CDR Banking API. Only
+  the two Product Reference Data tools are callable without CDR accreditation —
+  every other tool requires an ADR OAuth2 access token and is agent-callable
+  only inside an accredited Data Recipient.
+server:
+  name: st-george-bank-cdr-banking
+  transport: http
+  url: null
+  auth: >-
+    CDR OAuth2 / FAPI (accredited Data Recipient) for all tools except the
+    public Product Reference Data tools.
+tools:
+  - name: list_banking_products
+    description: List St.George's publicly available banking products (PRD, unauthenticated).
+    public: true
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#listBankingProducts
+  - name: get_banking_product_detail
+    description: Get full detail for a single banking product (PRD, unauthenticated).
+    public: true
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#getBankingProductDetail
+  - name: list_banking_accounts
+    description: List consented accounts.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#listBankingAccounts
+  - name: get_banking_account_detail
+    description: Get detail for one consented account.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#getBankingAccountDetail
+  - name: get_banking_balance
+    description: Get the balance for one account.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#getBankingBalance
+  - name: list_banking_balances_bulk
+    description: List balances across all consented accounts.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#listBankingBalancesBulk
+  - name: list_banking_transactions
+    description: List transactions for a consented account.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#listBankingTransactions
+  - name: get_banking_transaction_detail
+    description: Get detail for one transaction.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#getBankingTransactionDetail
+  - name: list_direct_debits
+    description: List direct debits for a consented account.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#listDirectDebits
+  - name: list_scheduled_payments
+    description: List scheduled payments for a consented account.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#listScheduledPayments
+  - name: list_instalment_plans
+    description: List instalment (BNPL) plans for a consented account.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#listInstalmentPlans
+  - name: list_banking_payees
+    description: List saved payees.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#listBankingPayees
+  - name: get_banking_payee_detail
+    description: Get detail for one saved payee.
+    source_operation: openapi/st-george-bank-cds-banking-products-openapi.yml#getBankingPayeeDetail

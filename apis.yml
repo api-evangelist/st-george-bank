@@ -51,6 +51,8 @@ apis:
     array; supports x-v versions 4 and 5. Conforms to the DSB Consumer Data Standards
     Banking API contract.
 common:
+- type: DomainSecurity
+  url: security/st-george-bank-domain-security.yml
 - type: Website
   url: https://www.stgeorge.com.au/
 - type: Portal
@@ -63,6 +65,36 @@ common:
   url: https://www.stgeorge.com.au/help/terms-conditions
 - type: Support
   url: https://www.stgeorge.com.au/online-services/security-centre
+- type: Overlay
+  url: overlays/st-george-bank-cds-banking-products-overlay.yaml
+- type: Authentication
+  url: authentication/st-george-bank-authentication.yml
+- type: OAuthScopes
+  url: scopes/st-george-bank-scopes.yml
+- type: Conventions
+  url: conventions/st-george-bank-conventions.yml
+- type: ErrorCatalog
+  url: errors/st-george-bank-problem-types.yml
+- type: Conformance
+  url: conformance/st-george-bank-conformance.yml
+- type: Compliance
+  url: https://www.stgeorge.com.au/content/dam/public/wbc/documents/pdf/aw/WBC_CDR_Policy.pdf
+- type: Lifecycle
+  url: lifecycle/st-george-bank-lifecycle.yml
+- type: Deprecation
+  url: https://consumerdatastandardsaustralia.github.io/standards/#versioning
+- type: DataModel
+  url: data-model/st-george-bank-data-model.yml
+- type: MCPServer
+  url: mcp/st-george-bank-mcp.yml
+- type: LLMsTxt
+  url: llms/st-george-bank-llms.txt
+- type: VulnerabilityDisclosure
+  url: security/st-george-bank-vulnerability-disclosure.yml
+- type: Security
+  url: https://www.westpac.com.au/security/how-to-report/responsible-disclosure/
+- type: AgentSkill
+  url: skills/_index.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

@@ -1,0 +1,107 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  openapi/st-george-bank-cds-banking-products-openapi.yml (shared DSB Consumer
+  Data Standards "CDR Banking API" v1.36.0) plus the Consumer Data Standards
+  HTTP-headers / pagination / error conventions
+  (https://consumerdatastandardsaustralia.github.io/standards/). These are the
+  cross-cutting request/response semantics every Australian CDR Data Holder
+  (including St.George, a Westpac brand) implements — they are profile-mandated
+  by the DSB, not St.George-specific.
+description: >-
+  How St.George's CDR Banking surface behaves across every operation:
+  authentication style, versioning (x-v header), pagination, request tracing
+  (x-fapi-interaction-id / FAPI), the CDS error envelope, and consent scoping.
+  The public Product Reference Data (PRD) endpoints are unauthenticated; all
+  other resources are ADR-gated behind the CDR consent + arrangement model.
+
+base_url: https://digital-api.stgeorge.com.au/cds-au/v1
+api_style: REST over HTTPS, JSON responses, DSB Consumer Data Standards profile
+
+authentication:
+  public_prd: none (unauthenticated Product Reference Data)
+  consumer_data: >-
+    OAuth2 / OpenID Connect, FAPI 1.0 Advanced profile, via the CDR Register
+    trust framework. PAR + PKCE, mutual-TLS sender-constrained tokens and/or
+    private_key_jwt client authentication, consent + arrangement model.
+    Accredited Data Recipient (ADR) only; no public self-serve sign-up.
+  detail: authentication/st-george-bank-authentication.yml
+  scopes: scopes/st-george-bank-scopes.yml
+
+idempotency:
+  supported: false
+  note: >-
+    The CDR Banking data-sharing surface is read-only (GET, plus POST variants
+    that carry a body of account ids to read in bulk — not state-mutating). The
+    Consumer Data Standards define no Idempotency-Key contract for these
+    operations, so no idempotency pointer is emitted.
+
+versioning:
+  scheme: header-based endpoint versioning (CDS)
+  mechanism: >-
+    x-v request header carries the requested endpoint version (positive
+    integer, REQUIRED); optional x-min-v carries the minimum acceptable
+    version. The Data Holder responds with the highest supported version
+    between x-min-v and x-v and echoes it in the x-v response header. If no
+    requested version is supported the endpoint returns 406 Not Acceptable.
+  observed_products_endpoint: 'x-v 4 and 5 supported; x-v 3 rejected 406 Unsupported Version'
+  detail: lifecycle/st-george-bank-lifecycle.yml
+
+pagination:
+  style: page-number (standard CDS pagination)
+  request_params:
+    page: 'Page of results to request. Positive integer, default 1.'
+    page-size: 'Page size to request. Positive integer, default 25.'
+  response_fields:
+    data: object/array of results
+    links: '{ self, first, prev, next, last } (LinksPaginated)'
+    meta: '{ totalRecords, totalPages } (MetaPaginated)'
+  errors:
+    invalid_page_size: 400 urn:au-cds:error:cds-all:Field/InvalidPageSize
+    invalid_page: 422 urn:au-cds:error:cds-all:Field/InvalidPage (page out of range)
+
+request_tracing:
+  header: x-fapi-interaction-id
+  description: >-
+    RFC 4122 UUID correlation id. If the client provides it the Data Holder
+    MUST echo it in the x-fapi-interaction-id response header; if absent the
+    Data Holder generates one and returns it. Present on every response
+    (including errors).
+  fapi_headers:
+    - x-fapi-auth-date (customer last-login time; resource calls)
+    - x-fapi-customer-ip-address (customer-present indicator)
+    - x-cds-client-headers (Base64 original customer headers; customer-present)
+
+error_envelope:
+  media_type: application/json
+  rfc9457: false
+  shape: '{ "errors": [ { "code", "title", "detail", "meta"? } ] }'
+  code_form: >-
+    URN, e.g. urn:au-cds:error:cds-all:Field/Invalid. Respondent-specific
+    codes extend a standard URN carried in meta.urn.
+  detail: errors/st-george-bank-problem-types.yml
+  docs: https://www.stgeorge.com.au/online-services/open-banking/error-mapping
+
+consent_scoping:
+  model: CDR consent + arrangement (sharing arrangement establishes the scopes)
+  data_minimisation: >-
+    A Data Recipient may only call resources covered by the scopes the customer
+    consented to; basic vs detail scopes gate field-level granularity.
+  detail: scopes/st-george-bank-scopes.yml
+
+rate_limits:
+  note: >-
+    Traffic thresholds (TPS / session / customer / unattended tiers) are set by
+    the Consumer Data Standards Non-Functional Requirements (NFRs) rather than
+    published per-brand by St.George. Not captured as a per-provider artifact.
+
+other_conventions:
+  - name: Amounts
+    detail: String, up to 16 significant figures, in AUD unless a currency field is present (CDS AmountString).
+  - name: Dates and times
+    detail: ISO 8601 (DateString / DateTimeString) in the CDS common field types.
+  - name: Unauthenticated PRD
+    detail: >-
+      GET /banking/products and GET /banking/products/{productId} are public
+      and require no consent; all account/transaction/payee/payment resources
+      require an ADR access token.

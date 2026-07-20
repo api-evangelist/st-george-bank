@@ -1,0 +1,30 @@
+# St.George Bank
+
+> St.George Bank is one of Australia's largest retail and business banks and a division of Westpac Banking Corporation (ASX:WBC). As a designated Data Holder under Australia's Consumer Data Right (CDR / Open Banking), it exposes a public, unauthenticated Product Reference Data (PRD) API conforming to the DSB Consumer Data Standards, plus consented, ADR-gated CDR data-sharing APIs. St.George does not run a broad public developer portal beyond its CDR Open Banking surface.
+
+## APIs
+
+- [St.George Bank CDR Product Reference Data API](https://www.stgeorge.com.au/online-services/open-banking): Public, unauthenticated Consumer Data Right Product Reference Data API at /cds-au/v1/banking/products. Base URL https://digital-api.stgeorge.com.au/cds-au/v1. Confirmed live (HTTP 200); supports x-v versions 4 and 5. Conforms to the DSB Consumer Data Standards Banking API contract.
+
+## Specs
+
+- [OpenAPI (CDR Banking API v1.36.0)](openapi/st-george-bank-cds-banking-products-openapi.yml): Shared DSB Consumer Data Standards OpenAPI 3.0.3, captured verbatim.
+- [OpenAPI Overlay](overlays/st-george-bank-cds-banking-products-overlay.yaml): API Evangelist enhancements (provenance, production server, artifact cross-links).
+
+## Semantics
+
+- [Authentication](authentication/st-george-bank-authentication.yml): Public PRD is unauthenticated; consumer data is OAuth2 / OpenID Connect, FAPI 1.0 Advanced, mutual-TLS, accredited Data Recipient only.
+- [OAuth scopes](scopes/st-george-bank-scopes.yml): Standard CDR banking scopes (bank:accounts.basic:read, bank:transactions:read, common:customer.basic:read, ...).
+- [Conventions](conventions/st-george-bank-conventions.yml): x-v header versioning, page/page-size pagination, x-fapi-interaction-id request tracing, CDS error envelope.
+- [Error catalog](errors/st-george-bank-problem-types.yml): CDS URN error codes (urn:au-cds:error:cds-all:...).
+- [Conformance](conformance/st-george-bank-conformance.yml): CDR Consumer Data Standards, OAuth2, OIDC, FAPI, mutual-TLS.
+- [Lifecycle](lifecycle/st-george-bank-lifecycle.yml): CDS per-endpoint header versioning; central DSB deprecation governance.
+- [Data model](data-model/st-george-bank-data-model.yml): Product, Account, Balance, Transaction, DirectDebit, ScheduledPayment, InstalmentPlan, Payee entity graph.
+- [MCP (candidate)](mcp/st-george-bank-mcp.yml): Candidate tool surface derived from the CDR Banking operations.
+
+## Docs
+
+- [Open Banking / CDR Data Holder page](https://www.stgeorge.com.au/online-services/open-banking)
+- [Enhanced Error Handling (error mapping)](https://www.stgeorge.com.au/online-services/open-banking/error-mapping)
+- [DSB Consumer Data Standards](https://consumerdatastandardsaustralia.github.io/standards/)
+- [Westpac Group CDR Policy (PDF)](https://www.stgeorge.com.au/content/dam/public/wbc/documents/pdf/aw/WBC_CDR_Policy.pdf)

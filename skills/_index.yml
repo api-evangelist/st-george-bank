@@ -1,0 +1,18 @@
+generated: '2026-07-20'
+method: generated
+source: >-
+  Generated from openapi/st-george-bank-cds-banking-products-openapi.yml — one
+  packaged Agent Skill per marquee CDR flow, grounded in real operationIds
+  verified against the spec. No provider-published skills/AGENTS.md exists for
+  St.George.
+skills:
+  - file: st-george-bank-product-reference-data.md
+    name: Browse St.George banking products (public CDR PRD)
+    api: openapi/st-george-bank-cds-banking-products-openapi.yml
+    operations: [listBankingProducts, getBankingProductDetail]
+    auth: none (public)
+  - file: st-george-bank-accounts-and-transactions.md
+    name: Read consented accounts, balances and transactions (CDR ADR)
+    api: openapi/st-george-bank-cds-banking-products-openapi.yml
+    operations: [listBankingAccounts, getBankingAccountDetail, listBankingBalancesBulk, getBankingBalance, listBankingTransactions, getBankingTransactionDetail]
+    auth: CDR OAuth2 (accredited Data Recipient)

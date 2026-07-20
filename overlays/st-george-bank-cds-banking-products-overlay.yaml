@@ -1,0 +1,34 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for St.George Bank CDR Banking API
+  version: 1.0.0
+extends: openapi/st-george-bank-cds-banking-products-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: st-george-bank
+      x-apievangelist-provider-name: St.George Bank
+      x-apievangelist-spec-provenance: >-
+        Shared DSB Consumer Data Standards "CDR Banking API" v1.36.0 captured
+        verbatim; St.George (a Westpac Group brand) is a CDR Data Holder that
+        implements this contract — it is not a bank-proprietary API design.
+      x-apievangelist-classification: open-banking-cdr-data-holder
+  - target: $.servers
+    update:
+      - description: St.George CDR Banking (production; MTLS resource server)
+        url: https://digital-api.stgeorge.com.au/cds-au/v1
+        x-note: >-
+          Only /banking/products and /banking/products/{productId} are public
+          and unauthenticated; all other paths require a CDR OAuth2 access token
+          held by an accredited Data Recipient.
+  - target: $.info
+    update:
+      x-apievangelist-artifacts:
+        authentication: authentication/st-george-bank-authentication.yml
+        scopes: scopes/st-george-bank-scopes.yml
+        conventions: conventions/st-george-bank-conventions.yml
+        errors: errors/st-george-bank-problem-types.yml
+        conformance: conformance/st-george-bank-conformance.yml
+        lifecycle: lifecycle/st-george-bank-lifecycle.yml
+        data_model: data-model/st-george-bank-data-model.yml
+        mcp: mcp/st-george-bank-mcp.yml

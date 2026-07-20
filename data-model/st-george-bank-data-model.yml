@@ -1,0 +1,71 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  Derived from openapi/st-george-bank-cds-banking-products-openapi.yml — path
+  structure and id-reference fields (accountId, transactionId, payeeId,
+  productId) across the 107 CDS Banking schemas. Entity graph for the shared
+  DSB "CDR Banking API" surface that St.George implements.
+entities:
+  - name: BankingProduct
+    id_field: productId
+    detail: getBankingProductDetail
+    list: listBankingProducts
+    public: true
+    note: Publicly readable Product Reference Data (no consent required).
+  - name: BankingAccount
+    id_field: accountId
+    detail: getBankingAccountDetail
+    list: listBankingAccounts
+  - name: BankingBalance
+    parent: BankingAccount
+    accessor: getBankingBalance
+    bulk: [listBankingBalancesBulk, listBankingBalancesSpecificAccounts]
+  - name: BankingTransaction
+    id_field: transactionId
+    parent: BankingAccount
+    detail: getBankingTransactionDetail
+    list: listBankingTransactions
+  - name: BankingDirectDebit
+    parent: BankingAccount
+    list: [listDirectDebits, listDirectDebitsBulk, listDirectDebitsSpecificAccounts]
+  - name: BankingScheduledPayment
+    parent: BankingAccount
+    list: [listScheduledPayments, listScheduledPaymentsBulk, listScheduledPaymentsSpecificAccounts]
+  - name: BankingInstalmentPlan
+    parent: BankingAccount
+    list: [listInstalmentPlans, listInstalmentPlansBulk]
+  - name: BankingPayee
+    id_field: payeeId
+    detail: getBankingPayeeDetail
+    list: listBankingPayees
+relationships:
+  - from: BankingAccount
+    to: BankingProduct
+    kind: belongs_to
+    via: productCategory / productName (BankingProductCategoryV2)
+  - from: BankingAccount
+    to: BankingBalance
+    kind: has_one
+    via: accountId
+  - from: BankingAccount
+    to: BankingTransaction
+    kind: has_many
+    via: accountId
+  - from: BankingAccount
+    to: BankingDirectDebit
+    kind: has_many
+    via: accountId
+  - from: BankingAccount
+    to: BankingScheduledPayment
+    kind: has_many
+    via: accountId
+  - from: BankingAccount
+    to: BankingInstalmentPlan
+    kind: has_many
+    via: accountId
+  - from: BankingScheduledPayment
+    to: BankingPayee
+    kind: belongs_to
+    via: payeeReference / payeeId (where a saved payee is the destination)
+enumerations:
+  BankingProductCategoryV2: [BUSINESS_LOANS, BUY_NOW_PAY_LATER, CRED_AND_CHRG_CARDS, LEASES, MARGIN_LOANS, OVERDRAFTS, PERS_LOANS, REGULATED_TRUST_ACCOUNTS, RESIDENTIAL_MORTGAGES, TERM_DEPOSITS, TRADE_FINANCE, TRANS_AND_SAVINGS_ACCOUNTS, TRAVEL_CARDS]

@@ -1,0 +1,53 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  The harvested OpenAPI (openapi/st-george-bank-cds-banking-products-openapi.yml)
+  declares no securitySchemes because it is the shared DSB "CDR Banking API"
+  document; the authentication model is defined by Australia's Consumer Data
+  Right security profile (CDR Register + FAPI 1.0 Advanced) and confirmed in the
+  St.George CDR review. Two distinct surfaces: an unauthenticated public PRD and
+  the ADR-gated consumer-data APIs.
+docs: https://www.stgeorge.com.au/online-services/open-banking
+summary:
+  types: [none, oauth2, openIdConnect, mutualTLS]
+  api_key_in: []
+  oauth2_flows: [authorizationCode]
+  public_surface: Product Reference Data (unauthenticated)
+  gated_surface: all account / transaction / payee / payment resources
+surfaces:
+  - name: Product Reference Data (PRD)
+    auth: none
+    detail: >-
+      GET /banking/products and GET /banking/products/{productId} are public and
+      unauthenticated. Only the x-v version header is required. Confirmed live
+      (HTTP 200) on https://digital-api.stgeorge.com.au/cds-au/v1/banking/products.
+  - name: Consumer data sharing (CDR)
+    auth: oauth2 + openIdConnect + mutualTLS
+    detail: >-
+      All other resources require an OAuth 2.0 access token obtained through the
+      CDR consent + authorisation flow. Only CDR-accredited Data Recipients
+      (ADRs) registered on the CDR Register can obtain tokens; there is no
+      public self-serve sign-up.
+schemes:
+  - name: CDR-OAuth2
+    type: oauth2
+    flows:
+      - flow: authorizationCode
+        detail: >-
+          Pushed Authorization Requests (PAR) + PKCE; consent captured via the
+          Data Holder authorisation server and bound to a sharing arrangement.
+    scopes: scopes/st-george-bank-scopes.yml
+    profile: FAPI 1.0 Advanced (mandated by the Consumer Data Standards)
+  - name: CDR-OIDC
+    type: openIdConnect
+    detail: OpenID Connect identity layer; id_token + userinfo per the CDR profile.
+  - name: CDR-mTLS
+    type: mutualTLS
+    detail: >-
+      Mutual-TLS sender-constrained access tokens; client authentication via
+      private_key_jwt and/or tls_client_auth. OpenAPI servers[] declares an MTLS
+      server (https://mtls.dh.example.com/cds-au/v1 placeholder in the shared spec).
+client_authentication: [private_key_jwt, tls_client_auth]
+notes: >-
+  method: searched because the spec omits securitySchemes (shared DSB doc); the
+  model is taken from the published CDR security profile, not fabricated.

@@ -1,0 +1,65 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  Derived from openapi/st-george-bank-cds-banking-products-openapi.yml (CDS
+  profile, error schema, pagination/version headers, FAPI headers) and
+  confirmed against Australia's Consumer Data Right regime: St.George is a
+  designated CDR Data Holder (a Westpac Group brand) implementing the DSB
+  Consumer Data Standards, which mandate FAPI-grade security.
+standards:
+  - id: cdr-consumer-data-standards
+    conforms: true
+    evidence: >-
+      Implements the DSB Consumer Data Standards "CDR Banking API" (v1.36.0) on
+      the standard /cds-au/v1 path; public PRD endpoint confirmed live returning
+      the CDS data.products envelope with x-v header versioning.
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      CDR data-sharing resources are protected by OAuth 2.0 authorization-code
+      flow issued via the CDR Register / Data Holder authorization server
+      (accredited Data Recipients only).
+  - id: oidc
+    conforms: true
+    evidence: >-
+      CDR uses OpenID Connect (hybrid/authorization-code) for identity and the
+      consent/authorisation model between Data Recipient and Data Holder.
+  - id: fapi
+    conforms: true
+    evidence: >-
+      The Consumer Data Standards mandate the FAPI 1.0 Advanced profile: PAR,
+      PKCE, mutual-TLS sender-constrained tokens and/or private_key_jwt, and the
+      x-fapi-interaction-id / x-fapi-auth-date headers present in the spec.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors use the CDS { "errors": [ { code, title, detail, meta } ] }
+      envelope with URN codes, not application/problem+json.
+  - id: pagination
+    conforms: true
+    evidence: Standard CDS page/page-size pagination with links + meta (totalRecords/totalPages).
+  - id: mutual-tls
+    conforms: true
+    evidence: >-
+      OpenAPI servers[] declares an MTLS server; CDR requires mutual-TLS on the
+      resource and token endpoints.
+  - id: psd2
+    conforms: false
+    evidence: PSD2 is the EU open-banking regime; Australia uses the CDR instead.
+  - id: json-api
+    conforms: false
+  - id: scim
+    conforms: false
+  - id: fhir-r4
+    conforms: false
+  - id: odata
+    conforms: false
+compliance:
+  regime: Australian Consumer Data Right (CDR / Open Banking)
+  role: Data Holder (designated ADI, Westpac Group brand)
+  regulators: [ACCC, OAIC, Treasury / Data Standards Body]
+  published_policy: https://www.stgeorge.com.au/content/dam/public/wbc/documents/pdf/aw/WBC_CDR_Policy.pdf
+  note: >-
+    CDR designation is a regulated, publicly documented compliance posture; the
+    Westpac Group CDR Policy covers St.George. A `type: Compliance` pointer is
+    wired to the published CDR policy.

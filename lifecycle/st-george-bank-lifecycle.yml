@@ -1,0 +1,43 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  openapi/st-george-bank-cds-banking-products-openapi.yml (CDS x-v / x-min-v
+  header versioning; info.version 1.36.0) and Australia's Consumer Data
+  Standards lifecycle governance. St.George does not publish its own API
+  lifecycle policy; endpoint versioning and deprecation are governed centrally
+  by the DSB and observed live on the PRD endpoint.
+versioning:
+  scheme: per-endpoint header versioning (Consumer Data Standards)
+  mechanism: >-
+    Clients request an endpoint version with the x-v header (and optional
+    x-min-v). The Data Holder serves the highest supported version in range and
+    echoes it in the x-v response header. Unsupported => 406 Not Acceptable.
+  standards_version: '1.36.0'
+  observed:
+    endpoint: https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
+    x_v_supported: [4, 5]
+    x_v_rejected: [3]
+    note: 'Live: x-v 4 and 5 return 200; x-v 3 returns 406 Unsupported Version.'
+  docs: https://consumerdatastandardsaustralia.github.io/standards/#versioning
+deprecation:
+  policy: >-
+    Endpoint versions are deprecated and retired centrally through the DSB
+    Consumer Data Standards maintenance process (versioned standards releases
+    and Future Dated Obligations), not by St.George individually. A Data Holder
+    signals unsupported versions via 406 at the x-v layer rather than RFC 8594
+    Sunset/Deprecation headers.
+  sunset_header: false
+  policy_url: https://consumerdatastandardsaustralia.github.io/standards/#versioning
+sla:
+  note: >-
+    Availability and performance obligations (uptime, response-time,
+    session/traffic thresholds) are set by the Consumer Data Standards
+    Non-Functional Requirements (NFRs), not published per-brand by St.George.
+  docs: https://consumerdatastandardsaustralia.github.io/standards/#non-functional-requirements
+status_page:
+  found: false
+  note: >-
+    No St.George- or Westpac-specific CDR status page was located. CDR
+    ecosystem availability is reported through the ACCC CDR participant tooling
+    rather than a public St.George status page.
+deprecated_operations: []

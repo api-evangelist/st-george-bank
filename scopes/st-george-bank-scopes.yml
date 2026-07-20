@@ -1,0 +1,54 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  The harvested OpenAPI declares no oauth2 securitySchemes (shared DSB "CDR
+  Banking API" doc), so scopes cannot be derived from the spec. The scope set
+  below is the standard Consumer Data Right banking authorisation scope
+  registry defined by the DSB Consumer Data Standards, which St.George (a
+  Westpac CDR Data Holder) accepts on consented data-sharing requests.
+docs: https://consumerdatastandardsaustralia.github.io/standards/#end-user-authorisation
+reference: https://cdr-support.zendesk.com/hc/en-us/articles/900004582823-Requirement-for-Basic-and-Detailed-Scopes
+schemes:
+  - name: CDR-OAuth2
+    profile: FAPI 1.0 Advanced
+    detail: >-
+      Scopes are granted through the CDR consent flow (accredited Data
+      Recipients only) and bind a sharing arrangement. openid + profile are
+      requested alongside the CDR data scopes.
+scopes:
+  - scope: openid
+    description: OpenID Connect authentication (id_token).
+    flows: [authorizationCode]
+  - scope: profile
+    description: OpenID Connect basic profile claims.
+    flows: [authorizationCode]
+  - scope: bank:accounts.basic:read
+    description: Read account identifiers, product association and basic account attributes (balances excluded).
+    flows: [authorizationCode]
+    operations: [listBankingAccounts, listBankingBalancesBulk, listBankingBalancesSpecificAccounts, getBankingBalance]
+  - scope: bank:accounts.detail:read
+    description: Read detailed account information (features, rates, addresses); additive to bank:accounts.basic:read.
+    flows: [authorizationCode]
+    operations: [getBankingAccountDetail]
+  - scope: bank:transactions:read
+    description: Read transactions for consented accounts.
+    flows: [authorizationCode]
+    operations: [listBankingTransactions, getBankingTransactionDetail]
+  - scope: bank:payees:read
+    description: Read saved payees.
+    flows: [authorizationCode]
+    operations: [listBankingPayees, getBankingPayeeDetail]
+  - scope: bank:regular_payments:read
+    description: Read direct debits, scheduled payments and instalment plans.
+    flows: [authorizationCode]
+    operations: [listDirectDebits, listDirectDebitsBulk, listDirectDebitsSpecificAccounts, listScheduledPayments, listScheduledPaymentsBulk, listScheduledPaymentsSpecificAccounts, listInstalmentPlans, listInstalmentPlansBulk]
+  - scope: common:customer.basic:read
+    description: Read basic customer data (name / organisation).
+    flows: [authorizationCode]
+  - scope: common:customer.detail:read
+    description: Read detailed customer data (contact details); additive to common:customer.basic:read.
+    flows: [authorizationCode]
+notes: >-
+  Product Reference Data (listBankingProducts / getBankingProductDetail) is
+  public and requires no scope. detail:read scopes only take effect when the
+  matching basic:read scope is also granted.

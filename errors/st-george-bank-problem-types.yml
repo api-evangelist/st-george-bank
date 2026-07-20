@@ -1,0 +1,63 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  Derived from openapi/st-george-bank-cds-banking-products-openapi.yml 4xx/5xx
+  responses (ResponseErrorListV2 / ErrorV2 schema and the per-operation
+  "MUST be supported" error-code lists) and enriched from the St.George
+  Enhanced Error Handling / CDR error-mapping page. These are the standard DSB
+  Consumer Data Standards error codes every Australian Data Holder returns.
+format: cds-error-list
+rfc9457: false
+docs: https://www.stgeorge.com.au/online-services/open-banking/error-mapping
+envelope:
+  media_type: application/json
+  schema: '{ "errors": [ { "code": "<urn>", "title": "<summary>", "detail": "<occurrence detail>", "meta": { "urn": "<extended-standard-urn>" } } ] }'
+  notes: >-
+    code is a URN. Where the code is respondent-specific it extends a standard
+    CDS URN carried in meta.urn. title MUST be stable per code; detail is
+    occurrence-specific. x-fapi-interaction-id is echoed on every error.
+problems:
+  - status: 400
+    code: urn:au-cds:error:cds-all:Field/Invalid
+    title: Invalid Field
+    detail: A field in the request failed a validation rule.
+  - status: 400
+    code: urn:au-cds:error:cds-all:Field/Missing
+    title: Missing Required Field
+    detail: A field that is mandatory for the request was not supplied.
+  - status: 400
+    code: urn:au-cds:error:cds-all:Header/Missing
+    title: Missing Required Header
+    detail: A mandatory HTTP header (e.g. x-v) was not supplied.
+  - status: 400
+    code: urn:au-cds:error:cds-all:Header/InvalidVersion
+    title: Invalid Version
+    detail: The x-v (or x-min-v) header value is not a valid positive integer.
+  - status: 400
+    code: urn:au-cds:error:cds-all:Field/InvalidPageSize
+    title: Invalid Page Size
+    detail: The page-size query parameter is outside the allowed range.
+  - status: 404
+    code: urn:au-cds:error:cds-all:Resource/NotFound
+    title: Resource Not Found
+    detail: The requested resource (e.g. accountId, transactionId, productId, payeeId) does not exist or is not visible under the consent.
+  - status: 404
+    code: urn:au-cds:error:cds-banking:Authorisation/RevokedConsent
+    title: Consent Is Revoked
+    detail: The sharing arrangement backing this request has been revoked (banking-specific).
+  - status: 406
+    code: urn:au-cds:error:cds-all:Header/UnsupportedVersion
+    title: Unsupported Version
+    detail: None of the requested endpoint versions (x-min-v..x-v) are supported. Confirmed live for x-v 3 on the products endpoint.
+  - status: 422
+    code: urn:au-cds:error:cds-all:Field/InvalidPage
+    title: Invalid Page
+    detail: The requested page number is out of range for the result set.
+  - status: 422
+    code: urn:au-cds:error:cds-all:Field/Unsupported
+    title: Unsupported Field
+    detail: A supplied field or filter value is recognised but not supported for this operation.
+sources_by_operation:
+  '400/406 on all operations': openapi/st-george-bank-cds-banking-products-openapi.yml (ResponseErrorListV2)
+  '404 on {id} operations': getBankingAccountDetail, getBankingTransactionDetail, getBankingBalance, getBankingPayeeDetail, getBankingProductDetail
+  '422 on list/search operations': listBankingAccounts, listBankingTransactions, listDirectDebits, listScheduledPayments, listInstalmentPlans, listBankingPayees, listBankingProducts
