@@ -1,0 +1,90 @@
+aid: st-george-bank
+name: St.George Bank
+review:
+  question: Does St.George Bank expose a confirmed public CDR Product Reference Data
+    API, and does it publish its own developer portal or a proprietary API contract?
+  answer: true
+  date: '2026-07-20'
+  reviewer: API Evangelist
+findings:
+  summary: |
+    St.George Bank is a division of Westpac Banking Corporation and a designated
+    Data Holder under Australia's Consumer Data Right (CDR / Open Banking). Its
+    public, unauthenticated Product Reference Data (PRD) API was confirmed live:
+    a GET against https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
+    returned HTTP 200 with a JSON body containing a data.products array and an
+    x-v response header. The endpoint advertises support for x-v versions 4 and 5
+    (a request with x-v: 3 is rejected 406 "Unsupported Version"). This is the
+    standard Consumer Data Standards (CDS) path, so the PRD surface is a
+    profile-conformant implementation of the shared DSB contract rather than a
+    bank-proprietary API design.
+
+    St.George does NOT run a broad public developer portal. developer.stgeorge.com.au
+    does not resolve. The bank's public "Open Banking" page
+    (https://www.stgeorge.com.au/online-services/open-banking) is a Data Holder
+    information/consent page describing the Westpac Group CDR posture and product
+    reference data, plus an Enhanced Error Handling (error-mapping) page; it is not
+    an API onboarding/developer console. Beyond the public PRD, all consumer-data
+    CDR APIs are gated: they are only accessible to registered CDR Accredited Data
+    Recipients (ADRs) via the CDR Register trust framework, using OAuth2 / OpenID
+    Connect with FAPI-grade security (PAR, PKCE, mutual-TLS / private_key_jwt, and
+    the CDR consent + arrangement model). There is no self-serve public sign-up.
+
+    Spec provenance: no St.George-proprietary OpenAPI is published. The harvested
+    spec (openapi/st-george-bank-cds-banking-products-openapi.yml) is the shared
+    Data Standards Body (DSB) Consumer Data Standards "CDR Banking API" OpenAPI
+    3.0.3 document (version 1.36.0), captured verbatim from the official
+    consumerdatastandardsaustralia.github.io standards site. It describes the
+    common banking surface (including GET /banking/products and
+    GET /banking/products/{productId}) that all Australian ADIs implement; it is
+    NOT a bank-specific contract.
+  cdrProductReferenceData:
+    confirmed: true
+    baseURL: https://digital-api.stgeorge.com.au/cds-au/v1
+    endpoint: https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
+    httpStatus: 200
+    xVersionsSupported:
+      - 4
+      - 5
+    note: 'Live 200 with data.products array; x-v: 3 rejected 406 Unsupported Version.'
+  developerPortal:
+    exists: false
+    note: developer.stgeorge.com.au does not resolve; the Open Banking page is a CDR
+      Data Holder information page, not an API developer console.
+  authModel:
+    publicPRD: none (unauthenticated public Product Reference Data)
+    consumerData: OAuth2 / OpenID Connect, FAPI-grade, CDR ADR + CDR Register trust
+      framework (consent + arrangement model); accredited-recipient only, no public
+      self-serve sign-up.
+  specProvenance: CDS-standard (DSB Consumer Data Standards, shared) — not proprietary.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://digital-api.stgeorge.com.au/cds-au/v1
+      documented: true
+      note: CDS-conformant CDR Banking API; public PRD confirmed live.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket surface; the Consumer Data Standards are HTTP/REST only.
+  endpointsConfirmed:
+    - GET https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
+sources:
+  - url: https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
+    type: APIReference
+    note: Live CDR PRD endpoint; returned HTTP 200 with data.products and x-v header (versions 4 and 5).
+  - url: https://www.stgeorge.com.au/online-services/open-banking
+    type: Documentation
+    note: St.George CDR Open Banking / Data Holder information page (mentions "Data Holder" and "product reference").
+  - url: https://www.stgeorge.com.au/online-services/open-banking/error-mapping
+    type: Documentation
+    note: Enhanced Error Handling / CDR error mapping page.
+  - url: https://www.stgeorge.com.au/content/dam/public/wbc/documents/pdf/aw/WBC_CDR_Policy.pdf
+    type: Legal
+    note: Westpac Group Consumer Data Right policy (covers St.George as a Westpac brand).
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
+    type: APIReference
+    note: DSB Consumer Data Standards CDR Banking API - Get Products (shared standard the PRD conforms to).
+  - url: https://consumerdatastandardsaustralia.github.io/standards/includes/swagger/cds_banking.json
+    type: OpenAPI
+    note: Source of the harvested OpenAPI 3.0.3 spec (CDR Banking API v1.36.0), captured verbatim; shared DSB standard, not bank-proprietary.

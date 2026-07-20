@@ -1,0 +1,68 @@
+aid: st-george-bank
+url: https://raw.githubusercontent.com/api-evangelist/st-george-bank/refs/heads/main/apis.yml
+name: St.George Bank
+kind: company
+description: St.George Bank is one of Australia's largest retail and business banks
+  and a division of Westpac Banking Corporation (ASX:WBC), one of the country's "Big
+  Four" banks. Originally a New South Wales building society that grew into an independent
+  ADI, St.George merged into the Westpac Group in 2008 and today operates as a Westpac
+  brand alongside BankSA, Bank of Melbourne and RAMS. As an authorised deposit-taking
+  institution it is a designated Data Holder under Australia's Consumer Data Right
+  (CDR / Open Banking), and therefore exposes a public, unauthenticated Product Reference
+  Data (PRD) API conforming to the DSB Consumer Data Standards, alongside the consented,
+  ADR-gated CDR data-sharing APIs. St.George does not operate a broad public developer
+  portal beyond its CDR Open Banking surface.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Financial
+- Banks
+- Open Banking
+- CDR
+- Consumer Banking
+- Australia
+- Product Reference Data
+- Westpac Group
+created: '2026-07-20'
+modified: '2026-07-20'
+specificationVersion: '0.19'
+apis:
+- aid: st-george-bank:st-george-bank-cdr-product-reference-data-api
+  name: St.George Bank CDR Product Reference Data API
+  tags:
+  - Open Banking
+  - CDR
+  - Product Reference Data
+  - Banking
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.stgeorge.com.au/online-services/open-banking
+  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1
+  properties:
+  - url: https://www.stgeorge.com.au/online-services/open-banking
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
+    type: APIReference
+  - url: openapi/st-george-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Public, unauthenticated Consumer Data Right Product Reference Data (PRD)
+    API exposing St.George's openly available banking product catalogue (transaction
+    and savings accounts, credit cards, loans, term deposits) under the standard CDS
+    path /cds-au/v1/banking/products. Confirmed live returning HTTP 200 with a data.products
+    array; supports x-v versions 4 and 5. Conforms to the DSB Consumer Data Standards
+    Banking API contract.
+common:
+- type: Website
+  url: https://www.stgeorge.com.au/
+- type: Portal
+  url: https://www.stgeorge.com.au/online-services/open-banking
+- type: Documentation
+  url: https://www.stgeorge.com.au/online-services/open-banking/error-mapping
+- type: PrivacyPolicy
+  url: https://www.stgeorge.com.au/privacy/privacy-statement
+- type: TermsOfService
+  url: https://www.stgeorge.com.au/help/terms-conditions
+- type: Support
+  url: https://www.stgeorge.com.au/online-services/security-centre
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
