@@ -155,6 +155,8 @@ apis:
     FAPI) and are not publicly probeable. St.George implements this standardised
     industry surface as a designated CDR Data Holder.
 common:
+- type: AgenticAccess
+  url: agentic-access/st-george-bank-agentic-access.yml
 - type: DomainSecurity
   url: security/st-george-bank-domain-security.yml
 - type: Website
