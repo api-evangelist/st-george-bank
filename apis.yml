@@ -12,7 +12,19 @@ description: St.George Bank is one of Australia's largest retail and business ba
   Data (PRD) API conforming to the DSB Consumer Data Standards, alongside the consented,
   ADR-gated CDR data-sharing APIs. St.George does not operate a broad public developer
   portal beyond its CDR Open Banking surface.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/st-george-bank.png
 tags:
 - Financial
 - Banks
@@ -26,134 +38,188 @@ created: '2026-07-20'
 modified: '2026-07-21'
 specificationVersion: '0.19'
 apis:
-- aid: st-george-bank:st-george-bank-cdr-product-reference-data-api
-  name: St.George Bank CDR Product Reference Data API
-  tags:
-  - Open Banking
-  - CDR
-  - Product Reference Data
-  - Banking
-  - Australia
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+- aid: st-george-bank:st-george-bank-banking-account-balances-api
+  name: St.George Bank Banking Account Balances API
+  description: Banking Account Balance endpoints
   humanURL: https://www.stgeorge.com.au/online-services/open-banking/product-api
   baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
-  properties:
-  - url: https://www.stgeorge.com.au/online-services/open-banking/product-api
-    type: Documentation
-  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
-    type: APIReference
-  - url: openapi/st-george-bank-cds-banking-products-openapi.yml
-    type: OpenAPI
-  description: Public, unauthenticated Consumer Data Right Product Reference Data (PRD)
-    API exposing St.George's openly available banking product catalogue (transaction
-    and savings accounts, credit cards, loans, term deposits) under the standard CDS
-    path /cds-au/v1/banking/products. Confirmed live returning HTTP 200 with a data.products
-    array; supports x-v versions 4 and 5. Covers the Get Products and Get Product Detail
-    operations of the shared DSB Consumer Data Standards Banking API contract (this is
-    the standardised industry surface, not a St.George-proprietary API).
-- aid: st-george-bank:st-george-bank-cdr-accounts-balances-api
-  name: St.George Bank CDR Accounts & Balances API
   tags:
-  - Open Banking
-  - CDR
-  - Accounts
-  - Balances
-  - Banking
-  - Australia
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.stgeorge.com.au/online-services/open-banking
-  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/accounts
+  - Banking Account Balances
   properties:
-  - url: https://www.stgeorge.com.au/online-services/open-banking
-    type: Documentation
-  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-accounts
-    type: APIReference
-  - url: openapi/st-george-bank-cds-banking-products-openapi.yml
-    type: OpenAPI
-  description: Consumer-authorised (ADR-gated) Consumer Data Right data-sharing surface
-    covering the Get Accounts, Get Bulk Balances, Get Account Balance and Get Account
-    Detail operations of the shared DSB Consumer Data Standards Banking API. Unlike the
-    public Product Reference Data API, these endpoints require an accredited data
-    recipient acting on behalf of a consenting customer over the CDR ADR model
-    (mTLS + OAuth2/OIDC FAPI), so they are not publicly probeable. St.George is legally
-    required to implement this standardised industry surface as a designated Data Holder.
-- aid: st-george-bank:st-george-bank-cdr-transactions-api
-  name: St.George Bank CDR Transactions API
+  - type: OpenAPI
+    url: openapi/st-george-bank-banking-account-balances-api-openapi.yml
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-accounts
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-transactions-for-account
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-direct-debits-for-account
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
+- aid: st-george-bank:st-george-bank-banking-account-direct-debits-api
+  name: St.George Bank Banking Account Direct Debits API
+  description: Banking Account Direct Debit endpoints
+  humanURL: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
   tags:
-  - Open Banking
-  - CDR
-  - Transactions
-  - Banking
-  - Australia
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.stgeorge.com.au/online-services/open-banking
-  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/accounts
+  - Banking Account Direct Debits
   properties:
-  - url: https://www.stgeorge.com.au/online-services/open-banking
-    type: Documentation
-  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-transactions-for-account
-    type: APIReference
-  - url: openapi/st-george-bank-cds-banking-products-openapi.yml
-    type: OpenAPI
-  description: Consumer-authorised (ADR-gated) Consumer Data Right data-sharing surface
-    covering the Get Transactions For Account and Get Transaction Detail operations of
-    the shared DSB Consumer Data Standards Banking API, exposing transaction history
-    for a consenting customer's eligible accounts. These endpoints require an accredited
-    data recipient acting under an active consent over the CDR ADR model (mTLS +
-    OAuth2/OIDC FAPI) and are not publicly probeable. St.George implements this
-    standardised industry surface as a designated CDR Data Holder.
-- aid: st-george-bank:st-george-bank-cdr-direct-debits-scheduled-payments-api
-  name: St.George Bank CDR Direct Debits & Scheduled Payments API
+  - type: OpenAPI
+    url: openapi/st-george-bank-banking-account-direct-debits-api-openapi.yml
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-accounts
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-transactions-for-account
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-direct-debits-for-account
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
+- aid: st-george-bank:st-george-bank-banking-account-scheduled-payments-api
+  name: St.George Bank Banking Account Scheduled Payments API
+  description: Banking Account Scheduled Payment endpoints
+  humanURL: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
   tags:
-  - Open Banking
-  - CDR
-  - Direct Debits
-  - Scheduled Payments
-  - Banking
-  - Australia
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.stgeorge.com.au/online-services/open-banking
-  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/accounts/direct-debits
+  - Banking Account Scheduled Payments
   properties:
-  - url: https://www.stgeorge.com.au/online-services/open-banking
-    type: Documentation
-  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-direct-debits-for-account
-    type: APIReference
-  - url: openapi/st-george-bank-cds-banking-products-openapi.yml
-    type: OpenAPI
-  description: Consumer-authorised (ADR-gated) Consumer Data Right data-sharing surface
-    covering the Get Direct Debits (per-account and bulk) and Get Scheduled Payments
-    (per-account and bulk) operations of the shared DSB Consumer Data Standards Banking
-    API, exposing a consenting customer's authorised direct-debit arrangements and
-    scheduled/recurring payments. These endpoints require an accredited data recipient
-    acting under an active consent over the CDR ADR model (mTLS + OAuth2/OIDC FAPI) and
-    are not publicly probeable. St.George implements this standardised industry surface
-    as a designated CDR Data Holder.
-- aid: st-george-bank:st-george-bank-cdr-payees-api
-  name: St.George Bank CDR Payees API
+  - type: OpenAPI
+    url: openapi/st-george-bank-banking-account-scheduled-payments-api-openapi.yml
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-accounts
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-transactions-for-account
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-direct-debits-for-account
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
+- aid: st-george-bank:st-george-bank-banking-account-transactions-api
+  name: St.George Bank Banking Account Transactions API
+  description: Banking Account Transaction endpoints
+  humanURL: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
   tags:
-  - Open Banking
-  - CDR
-  - Payees
-  - Banking
-  - Australia
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.stgeorge.com.au/online-services/open-banking
-  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/payees
+  - Banking Account Transactions
   properties:
-  - url: https://www.stgeorge.com.au/online-services/open-banking
-    type: Documentation
-  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
-    type: APIReference
-  - url: openapi/st-george-bank-cds-banking-products-openapi.yml
-    type: OpenAPI
-  description: Consumer-authorised (ADR-gated) Consumer Data Right data-sharing surface
-    covering the Get Payees and Get Payee Detail operations of the shared DSB Consumer
-    Data Standards Banking API, exposing the saved payees a consenting customer has
-    configured for their eligible accounts. These endpoints require an accredited data
-    recipient acting under an active consent over the CDR ADR model (mTLS + OAuth2/OIDC
-    FAPI) and are not publicly probeable. St.George implements this standardised
-    industry surface as a designated CDR Data Holder.
+  - type: OpenAPI
+    url: openapi/st-george-bank-banking-account-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-accounts
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-transactions-for-account
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-direct-debits-for-account
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
+- aid: st-george-bank:st-george-bank-banking-accounts-api
+  name: St.George Bank Banking Accounts API
+  description: Banking Account endpoints
+  humanURL: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
+  tags:
+  - Banking Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/st-george-bank-banking-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-accounts
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-transactions-for-account
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-direct-debits-for-account
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
+- aid: st-george-bank:st-george-bank-banking-payees-api
+  name: St.George Bank Banking Payees API
+  description: Banking Payee endpoints
+  humanURL: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
+  tags:
+  - Banking Payees
+  properties:
+  - type: OpenAPI
+    url: openapi/st-george-bank-banking-payees-api-openapi.yml
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-accounts
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-transactions-for-account
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-direct-debits-for-account
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
+- aid: st-george-bank:st-george-bank-banking-products-api
+  name: St.George Bank Banking Products API
+  description: Banking Product endpoints
+  humanURL: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  baseURL: https://digital-api.stgeorge.com.au/cds-au/v1/banking/products
+  tags:
+  - Banking Products
+  properties:
+  - type: OpenAPI
+    url: openapi/st-george-bank-banking-products-api-openapi.yml
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking/product-api
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
+  - type: Documentation
+    url: https://www.stgeorge.com.au/online-services/open-banking
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-accounts
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-transactions-for-account
+  - type: APIReference
+    url: >-
+      https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-direct-debits-for-account
+  - type: APIReference
+    url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
 common:
 - type: AgenticAccess
   url: agentic-access/st-george-bank-agentic-access.yml
