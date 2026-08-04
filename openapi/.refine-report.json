@@ -1,0 +1,26 @@
+{
+  "provider": "st-george-bank",
+  "sources": [
+    "st-george-bank-banking-account-balances-api-openapi.yml",
+    "st-george-bank-banking-account-direct-debits-api-openapi.yml",
+    "st-george-bank-banking-account-scheduled-payments-api-openapi.yml",
+    "st-george-bank-banking-account-transactions-api-openapi.yml",
+    "st-george-bank-banking-accounts-api-openapi.yml",
+    "st-george-bank-banking-payees-api-openapi.yml",
+    "st-george-bank-banking-products-api-openapi.yml"
+  ],
+  "outputs": [
+    "st-george-bank-banking-account-balances-api-openapi.yml",
+    "st-george-bank-banking-account-direct-debits-api-openapi.yml",
+    "st-george-bank-banking-account-scheduled-payments-api-openapi.yml",
+    "st-george-bank-banking-account-transactions-api-openapi.yml",
+    "st-george-bank-banking-accounts-api-openapi.yml",
+    "st-george-bank-banking-payees-api-openapi.yml",
+    "st-george-bank-banking-products-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
