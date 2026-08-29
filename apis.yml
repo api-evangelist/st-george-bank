@@ -12,6 +12,18 @@ description: St.George Bank is one of Australia's largest retail and business ba
   Data (PRD) API conforming to the DSB Consumer Data Standards, alongside the consented,
   ADR-gated CDR data-sharing APIs. St.George does not operate a broad public developer
   portal beyond its CDR Open Banking surface.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
