@@ -233,6 +233,10 @@ apis:
   - type: APIReference
     url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
 common:
+- type: Pricing
+  url: https://www.stgeorge.com.au/business/payment-solutions/eftpos-fees
+- type: Plans
+  url: plans/st-george-bank-plans-pricing.yml
 - type: CapabilityMap
   url: capabilities/st-george-bank-capability-edges.yml
   name: St.George Bank Business Capability Map
