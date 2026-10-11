@@ -1,0 +1,16 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/st-george-bank/integrations
+- https://n8n.io/integrations/st-george-bank/
+- https://composio.dev/toolkits/st-george-bank
+- https://monid.ai/tools/st-george-bank
+checked:
+- https://composio.dev/toolkits/st-george-bank
+- https://monid.ai/tools/st-george-bank
+- https://n8n.io/integrations/st-george-bank/
+- https://zapier.com/apps/st-george-bank/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
