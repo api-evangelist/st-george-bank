@@ -345,34 +345,14 @@ paths:
       x-version: '3'
 components:
   schemas:
-    MetaPaginatedTransaction_allOf:
+    Links:
       properties:
-        isQueryParamUnsupported:
-          default: false
-          description: '`true` if _text_ query parameter is not supported.'
-          type: boolean
-      type: object
-    MetaPaginatedTransaction:
-      allOf:
-      - $ref: '#/components/schemas/MetaPaginated'
-      - $ref: '#/components/schemas/MetaPaginatedTransaction_allOf'
-    BankingTransactionDetailV3:
-      allOf:
-      - $ref: '#/components/schemas/BankingTransactionV2'
-      - $ref: '#/components/schemas/BankingTransactionDetailV3_allOf'
-    MetaPaginated:
-      properties:
-        totalRecords:
-          description: The total number of records in the full set. See [pagination](#pagination).
-          type: integer
-          x-cds-type: NaturalNumber
-        totalPages:
-          description: The total number of pages in the full set. See [pagination](#pagination).
-          type: integer
-          x-cds-type: NaturalNumber
+        self:
+          description: Fully qualified link that generated the current response document.
+          type: string
+          x-cds-type: URIString
       required:
-      - totalPages
-      - totalRecords
+      - self
       type: object
     BankingTransactionDetailV3_allOf_extendedData_nppPayload:
       description: Mandatory if the _extensionUType_ value is `nppPayload`.
@@ -400,49 +380,24 @@ components:
       type: object
       x-conditional:
       - extendedDescription
-    BankingAccountId:
-      description: A unique identifier for a Banking account, generated according to [CDR ID Permanence](#id-permanence) requirements.
-      type: string
-      x-cds-type: ASCIIString
-    ResponseBankingTransactionListV2_data:
+    MetaPaginatedTransaction:
+      allOf:
+      - $ref: '#/components/schemas/MetaPaginated'
+      - $ref: '#/components/schemas/MetaPaginatedTransaction_allOf'
+    MetaPaginated:
       properties:
-        transactions:
-          items:
-            $ref: '#/components/schemas/BankingTransactionV2'
-          type: array
+        totalRecords:
+          description: The total number of records in the full set. See [pagination](#pagination).
+          type: integer
+          x-cds-type: NaturalNumber
+        totalPages:
+          description: The total number of pages in the full set. See [pagination](#pagination).
+          type: integer
+          x-cds-type: NaturalNumber
       required:
-      - transactions
+      - totalPages
+      - totalRecords
       type: object
-    LinksPaginated:
-      properties:
-        self:
-          description: Fully qualified link that generated the current response document.
-          type: string
-          x-cds-type: URIString
-        first:
-          description: URI to the first page of this set. Mandatory if this response is not the first page.
-          type: string
-          x-cds-type: URIString
-        prev:
-          description: URI to the previous page of this set. Mandatory if this response is not the first page.
-          type: string
-          x-cds-type: URIString
-        next:
-          description: URI to the next page of this set. Mandatory if this response is not the last page.
-          type: string
-          x-cds-type: URIString
-        last:
-          description: URI to the last page of this set. Mandatory if this response is not the last page.
-          type: string
-          x-cds-type: URIString
-      required:
-      - self
-      type: object
-      x-conditional:
-      - prev
-      - next
-      - first
-      - last
     BankingTransactionV2:
       properties:
         accountId:
@@ -536,6 +491,36 @@ components:
       - transactionId
       - postingDateTime
       - crn
+    ResponseBankingTransactionListV2:
+      properties:
+        data:
+          $ref: '#/components/schemas/ResponseBankingTransactionListV2_data'
+        links:
+          $ref: '#/components/schemas/LinksPaginated'
+        meta:
+          $ref: '#/components/schemas/MetaPaginatedTransaction'
+      required:
+      - data
+      - links
+      - meta
+      type: object
+    BankingTransactionDetailV3:
+      allOf:
+      - $ref: '#/components/schemas/BankingTransactionV2'
+      - $ref: '#/components/schemas/BankingTransactionDetailV3_allOf'
+    BankingAccountId:
+      description: A unique identifier for a Banking account, generated according to [CDR ID Permanence](#id-permanence) requirements.
+      type: string
+      x-cds-type: ASCIIString
+    ResponseBankingTransactionListV2_data:
+      properties:
+        transactions:
+          items:
+            $ref: '#/components/schemas/BankingTransactionV2'
+          type: array
+      required:
+      - transactions
+      type: object
     BankingTransactionDetailV3_allOf:
       properties:
         extendedData:
@@ -552,30 +537,74 @@ components:
       type: object
       x-conditional:
       - urn
+    MetaPaginatedTransaction_allOf:
+      properties:
+        isQueryParamUnsupported:
+          default: false
+          description: '`true` if _text_ query parameter is not supported.'
+          type: boolean
+      type: object
     BankingInstalmentPlanId:
       description: A unique identifier for a Banking instalment plan, generated according to [CDR ID Permanence](#id-permanence) requirements.
       type: string
       x-cds-type: ASCIIString
-    BankingTransactionDetailV3_allOf_extendedData:
+    LinksPaginated:
       properties:
-        payer:
-          description: Label of the originating payer. Mandatory for inbound payment.
+        self:
+          description: Fully qualified link that generated the current response document.
           type: string
-        payee:
-          description: Label of the target PayID. Mandatory for an outbound payment. The name assigned to the BSB/Account Number or PayID (by the owner of the PayID).
+          x-cds-type: URIString
+        first:
+          description: URI to the first page of this set. Mandatory if this response is not the first page.
           type: string
-        extensionUType:
-          description: Optional extended data specific to transactions. Currently extended data is supported for NPP service overlays.
-          enum:
-          - nppPayload
+          x-cds-type: URIString
+        prev:
+          description: URI to the previous page of this set. Mandatory if this response is not the first page.
           type: string
-        nppPayload:
-          $ref: '#/components/schemas/BankingTransactionDetailV3_allOf_extendedData_nppPayload'
+          x-cds-type: URIString
+        next:
+          description: URI to the next page of this set. Mandatory if this response is not the last page.
+          type: string
+          x-cds-type: URIString
+        last:
+          description: URI to the last page of this set. Mandatory if this response is not the last page.
+          type: string
+          x-cds-type: URIString
+      required:
+      - self
       type: object
       x-conditional:
-      - payer
-      - payee
-      - nppPayload
+      - prev
+      - next
+      - first
+      - last
+    Meta:
+      type: object
+    ResponseBankingTransactionByIdV3:
+      properties:
+        data:
+          $ref: '#/components/schemas/BankingTransactionDetailV3'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
+      required:
+      - data
+      - links
+      type: object
+    BankingTransactionId:
+      description: A unique identifier for a Banking transaction, generated according to [CDR ID Permanence](#id-permanence) requirements.
+      type: string
+      x-cds-type: ASCIIString
+    NppPaymentService:
+      description: Identifier of the applicable overlay service. The _service_ is used in conjunction with the _serviceVersion_. See [here](#npp-services) for more details.
+      enum:
+      - X2P1
+      - IFTI
+      - BSCT
+      - CATSCT
+      example: X2P1
+      type: string
     ErrorV2:
       properties:
         code:
@@ -606,55 +635,26 @@ components:
       required:
       - errors
       type: object
-    ResponseBankingTransactionByIdV3:
+    BankingTransactionDetailV3_allOf_extendedData:
       properties:
-        data:
-          $ref: '#/components/schemas/BankingTransactionDetailV3'
-        links:
-          $ref: '#/components/schemas/Links'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      required:
-      - data
-      - links
-      type: object
-    Links:
-      properties:
-        self:
-          description: Fully qualified link that generated the current response document.
+        payer:
+          description: Label of the originating payer. Mandatory for inbound payment.
           type: string
-          x-cds-type: URIString
-      required:
-      - self
+        payee:
+          description: Label of the target PayID. Mandatory for an outbound payment. The name assigned to the BSB/Account Number or PayID (by the owner of the PayID).
+          type: string
+        extensionUType:
+          description: Optional extended data specific to transactions. Currently extended data is supported for NPP service overlays.
+          enum:
+          - nppPayload
+          type: string
+        nppPayload:
+          $ref: '#/components/schemas/BankingTransactionDetailV3_allOf_extendedData_nppPayload'
       type: object
-    NppPaymentService:
-      description: Identifier of the applicable overlay service. The _service_ is used in conjunction with the _serviceVersion_. See [here](#npp-services) for more details.
-      enum:
-      - X2P1
-      - IFTI
-      - BSCT
-      - CATSCT
-      example: X2P1
-      type: string
-    ResponseBankingTransactionListV2:
-      properties:
-        data:
-          $ref: '#/components/schemas/ResponseBankingTransactionListV2_data'
-        links:
-          $ref: '#/components/schemas/LinksPaginated'
-        meta:
-          $ref: '#/components/schemas/MetaPaginatedTransaction'
-      required:
-      - data
-      - links
-      - meta
-      type: object
-    Meta:
-      type: object
-    BankingTransactionId:
-      description: A unique identifier for a Banking transaction, generated according to [CDR ID Permanence](#id-permanence) requirements.
-      type: string
-      x-cds-type: ASCIIString
+      x-conditional:
+      - payer
+      - payee
+      - nppPayload
   headers:
     XV:
       description: The [payload version](#response-headers) that the endpoint has responded with.
